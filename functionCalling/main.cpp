@@ -6,12 +6,13 @@ void first() {
     f();
     printf("First!\n");
 }
+
 void second() {
     f();
     printf("Second!\n");
 }
 
-int
-main() {
+int main() {
     first();
+    printf("Main!\n");
 }
