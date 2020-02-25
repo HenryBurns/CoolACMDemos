@@ -1,9 +1,10 @@
 The idea here is that indexing an array is just pointer arithmatic.
-Consider a[1] = a + 1 = *(a + 1). Since we are adding a pointer to a non
-pointer we must do pointer arithmatic. This means we do a + 1 * sizeof 
-type that a points to.
+Consider a[1] = a + 1 = *(a + 1).
 
-therefore 1[A] = 1 + a = *(1 + a)
+Since we are adding a pointer to a non pointer we must do pointer arithmatic.
+This means we do a + (1 * sizeof type that a points to).
+
+therefore 1[a] = 1 + a = *(1 + a) = *(a + 1)
 
 That means that all 3 of these are equivalent
 
@@ -28,4 +29,9 @@ up doing the same pointer arithmatic)
 This works even with chars because it's treated as an unsigned int for
 pointer arithmatic.
 
-ALL CREDIT FOR THIS CODE GOES TO PROFESSOR KENNITH CHIU
+Part2, the stack
+------------------
+
+Notice that a is an int**. suppose row_indx = 1, and we add a + 1.
+We therefore add 0x14 = 20. This is because arrays on the stack are
+expanded as ((a + row_indx * row_size) + column_indx * coumn_size).
