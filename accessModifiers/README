@@ -1,0 +1,21 @@
+This demo isn't really complicated, but I think it's fun.
+
+Run1
+--------------------
+
+First, ask what will happen. Will the program compile? (Why/why not).
+
+
+Compile the program without the #include "header.h". Show that it is indeed a
+compilation error when we try to access a private variable
+
+Ask if anything can change when I include header.h.
+
+
+Run2
+--------------------
+
+Include header.h, and ask people why it compiles, and what it's gonna do.
+Then run it and show that you can redifine certain c++ keywords.
+
+(access modifiers and true/false)
