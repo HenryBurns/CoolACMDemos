@@ -2,7 +2,7 @@
 // #include "header.h"
 
 class Tmp {
-	int a;
+	int a; // private
 private:
 	int b;
 public:
@@ -15,8 +15,12 @@ int main() {
 	tmp.b = 4;
 	tmp.c = 4;
 
+	auto i = 2.2;
+
+	std::cout << "I: " << i << std::endl;
+
 	if(true) {
-		std::cout << "This should always print" << std::endl;
+		std::cout << "This should always print TRUE" << std::endl;
 	} else {
 		std::cout << "This should never print" << std::endl;
 	}

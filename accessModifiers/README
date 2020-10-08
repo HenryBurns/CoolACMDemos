@@ -7,15 +7,55 @@ First, ask what will happen. Will the program compile? (Why/why not).
 
 
 Compile the program without the #include "header.h". Show that it is indeed a
-compilation error when we try to access a private variable
+compilation error when we try to access a private variable. (And that class variables are private by default)
 
-Ask if anything can change when I include header.h.
+Ask what could possibly change when I include the mysterious header.h file.
+
+POSSIBLE ANSWERS:
+
+"Maybe you #definie Tmp, and that does something wacky?"
+// Wouldn't that cause Tmp to be defined twice and give us a compile error.
+// Technically, I guess we could do something like this.
+// #define Tmp new_tmp { } \
+//	   class Tmp { \
+//	   public: \
+//		int a, b, c; \
+// 	   }
 
 
 Run2
 --------------------
 
-Include header.h, and ask people why it compiles, and what it's gonna do.
-Then run it and show that you can redifine certain c++ keywords.
+Include header.h, and show that it compiles now. Ask what you could do to make it compile.
 
-(access modifiers and true/false)
+The point of this demo is to show that the preprocessor can do a lot of funky stuff.
+Then run it and show all the interesting things that the preprocessor can do.
+
+
+QUESTION 1:
+
+What can the preprocessor define?
+
+The preprocessor can define anything that isn't preceeded by a # (as these are preprocessor tokens).
+In practice this means that you can #define any c++ keyword
+(including class, struct, int, double, auto, public:, private:, protected:, const, constexpr, true/false .. etc) 
+
+QUESTION 2:
+
+This is cool and all, but what's the practical use of any of this?
+
+Sometimes, you need to debug a library. It can help to do the following.
+#define private public
+#define protected public 
+#define class struct
+#include "lib_header.h"
+#undef private
+#undef protected
+#undef class
+
+Alternatvely you occasionally hear stories of programmers who were treated
+poorly, and will instert the following code in an obscure header.
+
+#define true Math.rand() > 0.99
+
+This will cause any true statement to fail about 1% of the time.
