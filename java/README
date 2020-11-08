@@ -1,0 +1,37 @@
+This demo is meant to show the functionality of == in java, and how Strings get allocated.
+
+The idea is that any strings constructed with a string literal will have the same memory.
+(and therefore == wil return true).
+
+Throughout the demo we show the following rules.
+
+1. String.operator=(string literal) will first check the string pool to see if our string literal already has a String
+   version in memory somewhere. (If so == will return true).
+2. String.operator=(String) just coppies around pointers (since strings are immutable). Therefore it passes ==.
+3. String.operator+(String) returns a new String Object (from StringBuilder). Therefore it will be new memory.
+4. "Hi" + " Dad" concatentates string literals (which is a compile time operation).
+   It's equivalent to using  "Hi Dad". (And therefore can share memory with another object).
+
+
+Here are the results for our True/False question in the demo.
+```
+if(s1 == s2) { // True with rule 1.
+	System.out.println("s1 == s2");
+}
+
+if(s1 == s3) { // True with rule 2.
+	System.out.println("s1 == s3");
+}
+
+if(s4 == s5) { // False with rule 3. (String.operator+() is a runtime operation).
+	System.out.println("s4 == s5");
+}
+
+if(s6 == s7) { // False with rule 3.
+	System.out.println("s6 == s7");
+}
+
+if(s5 == s8) { // True with rule 4.
+	System.out.println("s5 == s8");
+}
+```

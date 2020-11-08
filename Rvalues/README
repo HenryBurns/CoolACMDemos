@@ -1,0 +1,60 @@
+The main point of this demo is to illustrate the "Rule of 4 (and a half)".
+
+The rule of 4 (and a half) is explained really well in this stack overflow.
+https://stackoverflow.com/questions/45754226/what-is-the-rule-of-four-and-a-half
+
+In short it says that whenever you override a constructor, destructor,
+assignment operator, or move operator, you should also override all the others.
+
+// Bad class you probably want to override the copy constructor as well.
+class A {
+    A() { // Do custom logic }
+};
+
+// Good class, overrides all relevant methods.
+class B {
+    B() { // This is a constructor}
+    B(const B& other_instance_of_b) { // This is a copy constructor}
+    B(const B&& other_temp_instance_of_b) { // This is a move constructor}
+    operator=(const B& other_instance_of_b) { // This is an assignment operator}
+    operator=(const B&& other_instance_of_b) { // This is a move operator}
+    ~B() { // This is a destructor}
+};
+
+// Explanation of all of B's methods
+int main() {
+    // This call's B::B(), B's default constructor. Typically it'll 0 initialize data.
+    B default_constructed;
+    // This calls B::B(const B& other_instance), B's copy constructor. It'll create a copy
+    // of the other instance such that modifying the new instance will not change the old one.
+    B copy(default_constructed);
+
+    // This calls B's move constructor. A move constructor is a constructor that takes an Rvalue
+    // reference. In simple terms, if you return something by value, it is an Rvalue.
+    // Rvalues are temporary variables that are immediately created and then destroyed.
+    //
+    // C++ denotes an Rvalue reference with two & signs (hence B&&).
+    //
+    // Therefore this move constructor would steal relevant data from the temporary object,
+    // to avoid the cost of populating it's own data.
+    B move_constructed(B());
+    // B move_constructed = B() would also call the move constructor (as move_constructed is
+    //
+    // B move_constructed = std::move(default_constructed) would call the move constructor as well.
+    // std::move(val) casts value to an Rvalue (e.g. std::move(B) = B&&)
+    
+    // This calls the copy assignment operator, which functions the same as the copy constructer
+    // (while avoiding the initialization costs). This would be usefull if reusing a network connection
+    // (or something similar that can take a long time to construct, and can be reused by different
+    // classes).
+    B assignment_populated;
+    assignment_populated = copy;
+    
+    // This is the move assignment operator. Since move_populated is declared on a different line
+    // than the assignment operator is used, it will call the move operator. (in reality compiler
+    // optimizations can make this false, but conceptually it's true).
+    B move_populated;
+    move_populated = B();
+
+    // All of the destructors are called as these objects leave scope.
+}
